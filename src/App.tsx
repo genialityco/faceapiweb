@@ -7,8 +7,8 @@ import "@mantine/core/styles.css";
 import "./App.css";
 
 function App() {
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [initialized, setInitialized] = useState(false);
   const [loadingStatus, setLoadingStatus] = useState("Loading models...");
@@ -42,10 +42,12 @@ function App() {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-        setLoadingStatus("Detecting faces...");
-        setInitialized(true);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+          setLoadingStatus("Detecting faces...");
+          setInitialized(true);
+        }
       })
       .catch((err) => {
         console.error("Error accessing webcam: ", err);
@@ -59,12 +61,16 @@ function App() {
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
     const displaySize = { width: video.width, height: video.height };
     faceapi.matchDimensions(canvas, displaySize);
 
     let detectionInterval;
 
     const detectFaces = async () => {
+      if (!video || !canvas) return;
+
       const detections = await faceapi
         .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
         .withFaceExpressions()
@@ -75,6 +81,7 @@ function App() {
 
       // Clear canvas before each draw
       const context = canvas.getContext("2d");
+      if (!context) return;
       context.clearRect(0, 0, canvas.width, canvas.height);
 
       // Draw bounding boxes
@@ -82,10 +89,10 @@ function App() {
 
       // For each face, display gender and primary emotion
       resizedDetections.forEach((detection) => {
-        const { x, y, width, height } = detection.detection.box;
+        const { x, y, height } = detection.detection.box;
         const { gender, genderProbability } = detection;
         const expressions = detection.expressions;
-        const mainEmotion = Object.keys(expressions).reduce((a, b) => (expressions[a] > expressions[b] ? a : b));
+        const mainEmotion = Object.keys(expressions).reduce((a, b) => (expressions[a as keyof typeof expressions] > expressions[b as keyof typeof expressions] ? a : b));
 
         const text = `Gender: ${gender} (${(genderProbability * 100).toFixed(1)}%) | Emotion: ${mainEmotion}`;
         const pad = 5;
