@@ -1,0 +1,43 @@
+.App {
+    text-align: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #ffa9f7, #87e0ff);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    color: #fff;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #ffffff;
+  }
+  
+  .status {
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #00aabb;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .video-container {
+    position: relative;
+    max-width: 640px;
+    width: 100%;
+    margin: auto;
+  }
+  
+  video, canvas {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    position:fixed;
+    top:0;
+    left:0;
+  }
