@@ -111,11 +111,11 @@ function App() {
         const textHeight = fontSize + 8; // Altura aproximada del texto
 
         // Dibujar fondo
-        context.fillStyle = "rgba(0, 0, 0, 0.8)";
+        context.fillStyle = "rgba(0, 0, 0, 0.6)";
         context.fillRect(
-          10,
-          10,
-          textWidth ,
+          6,
+          8,
+          textWidth +10,
           textHeight
         );
 
