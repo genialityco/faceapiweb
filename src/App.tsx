@@ -89,7 +89,7 @@ function App() {
 
       // For each face, display gender and primary emotion
       resizedDetections.forEach((detection) => {
-        const { x, y, height } = detection.detection.box;
+        //const { x, y, height } = detection.detection.box;
         const { gender, genderProbability } = detection;
         const expressions = detection.expressions;
         const mainEmotion = Object.keys(expressions).reduce(
@@ -101,7 +101,7 @@ function App() {
         );
 
         const text = `Gender: ${gender} (${(genderProbability * 100).toFixed(1)}%) | Emotion: ${mainEmotion}`;
-        const pad = 5;
+        //const pad = 5;
         const fontSize = 14;
         context.font = `${fontSize}px Arial`;
 
@@ -113,15 +113,15 @@ function App() {
         // Dibujar fondo
         context.fillStyle = "rgba(0, 0, 0, 0.8)";
         context.fillRect(
-          x + pad - 2,
-          y + height + pad,
-          textWidth + 4,
+          10,
+          10,
+          textWidth ,
           textHeight
         );
 
         // Dibujar texto
         context.fillStyle = "#ff007f";
-        context.fillText(text, x + pad, y + height + pad + fontSize);
+        context.fillText(text, 10 , 10  + fontSize);
       });
     };
 
